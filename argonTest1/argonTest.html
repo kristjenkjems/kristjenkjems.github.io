@@ -1,0 +1,27 @@
+<!doctype html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+	
+<script src="http://argon.gatech.edu/argon.js"></script>
+
+<script>
+
+ARGON.ready(function() {
+	var redGeometry = new THREE.CubeGeometry(30, 30, 30, 2, 2, 2);
+	var redMaterial = new THREE.MeshLambertMaterial({ color: 0xFF0000, shading: THREE.FlatShading });
+	var redCube = new THREE.Mesh(redGeometry, redMaterial);
+	redCube.rotation.x= -90 * Math.PI / 180.0;
+	
+	ARGON.World.add(redCube);
+	
+	ARGON.loadDataset("dataSets/targetTests.xml", function (dataset){
+		var testTarget2 = new ARGON.TrackedObject(dataset.targets.testTarget2);
+		
+	testTarget2.add(redCube);
+	
+	});
+})
+		</script>
+	</head>
+</html>

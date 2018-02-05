@@ -1,0 +1,85 @@
+a:hover {color: #BAD431;}
+a:active {color: #BAD431;}
+
+::selection {background: #BAD431; color: #fff;}
+::-moz-selection {background: #BAD431; color: #fff;}
+::-webkit-selection {background: #BAD431; color: #fff;}
+
+#logo a:hover {color: #BAD431;}
+#logo a:active {color: #BAD431;}
+
+.menu a:hover {color: #BAD431;}
+.menu a:active {color: #BAD431;}
+
+.sub-menu a:hover {color: #BAD431;}
+.sub-menu a:active {color: #BAD431;}
+
+.toggle .fa-bars:hover {color: #BAD431;}
+.toggle-home .fa-bars:hover {color: #BAD431;}
+
+.button:hover {color: #fff; border: 2px solid #BAD431; background: #BAD431;}
+.button:active {color: #fff; border: 2px solid #BAD431; background: #BAD431;}
+
+.service-fa {color: #000;}
+
+.profile-pic {background: #BAD431 url(../images/profile.png) center center no-repeat;}
+	a.profile-pic span {display:none; }
+	a.profile-pic span:hover {display:inline; position:absolute; }
+
+.category_postmetadata a:hover {color: #BAD431;}
+.category_postmetadata a:active {color: #BAD431;}
+
+a.more-link:hover {color: #fff; border: 2px solid #BAD431; background: #BAD431;}
+a.more-link:active {color: #fff; border: 2px solid #BAD431; background: #BAD431;}
+
+ol.commentlist li div.comment-meta a:hover {color: #BAD431;}
+ol.commentlist li div.comment-meta a:active {color: #BAD431;}
+
+ol.commentlist li div.reply a:hover {color: #BAD431;}
+ol.commentlist li div.reply a:active {color: #BAD431;}
+
+.blog_previous a:hover {color: #fff; border: 2px solid #BAD431; background: #BAD431;}
+.blog_previous a:active {color: #fff; border: 2px solid #BAD431; background: #BAD431;}
+
+.blog_next a:hover {color: #fff; border: 2px solid #BAD431; background: #BAD431;}
+.blog_next a:active {color: #fff; border: 2px solid #BAD431; background: #BAD431;}
+
+.portfolio-items .item-two-columns {background: #BAD431;}
+.portfolio-items .item-three-columns {background: #BAD431;}
+.portfolio-items .item-four-columns {background: #BAD431;}
+
+#options a:hover {color: #BAD431;}
+#options a:active {color: #BAD431;}
+
+.item-button-previous:hover {
+	border: 2px solid #BAD431;
+	background: #BAD431 url(images/item-button-previous-hover.png);
+}
+
+.item-button-return:hover {
+	border: 2px solid #BAD431;
+	background: #BAD431 url(images/item-button-return-hover.png);
+}
+
+.item-button-next:hover {
+	border: 2px solid #BAD431;
+	background: #BAD431 url(images/item-button-next-hover.png);
+}
+
+.item-category {color: #000;}
+
+.logo-home a:hover {color: #BAD431;}
+.logo-home a:active {color: #BAD431;}
+
+.nav-home .menu a:hover {color: #BAD431;}
+.nav-home .menu a:active {color: #BAD431;}
+
+.text-home {color: #BAD431;}
+
+.button-home {border: 2px solid #BAD431;}
+.button-home:link {color: #BAD431;}
+.button-home:visited {color: #BAD431;}
+.button-home:hover {color: #fff; background: #BAD431;}
+.button-home:active {color: #fff; background: #BAD431;}
+
+.home-dash {background: #BAD431;}

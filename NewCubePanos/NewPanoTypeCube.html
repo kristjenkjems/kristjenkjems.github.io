@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Photo sphere with three.js</title>
+	<style>
+		body { margin: 0; overflow: hidden; background-color: #000; }
+		.tm  { position: absolute; top: 10px; right: 10px; }
+    </style>	
+</head>
+<body>
+	<div id="cube" ondblclick="doubleTap()">	
+	</div>	
+	<script src="scripts/jquery.js"></script>
+	<script src="scripts/three.js"></script>
+	<script src="scripts/OrbitControls.js"></script>	
+	<script src="scripts/Detector.js"></script>
+	<script src="scripts/CanvasRenderer.js"></script>
+	<!--<script src="scripts/WebGLDeferredRenderer.js"></script>-->
+	<!--<script src="scripts/animo.js" type="text/javascript"></script>-->
+	<script src="scripts/TweenMax.min.js" type="text/javascript"></script>
+	<!--<link href="scripts/animate+animo.css" rel="stylesheet" type="text/css">-->
+	
+
+	<script>
+
+
+		// this all relies solely on three.js.  No argon setup.  So you will need to use your normal Scene setup for Argon3 in order to
+		// get the camera controlled by the device orientation.  Otherwise the code should work fine in Argon since it is pure three.js code.
+		
+		// this little trick is using the detector code loaded above to dertermine if the browser is WebGL capable, if not it uses the canvas render
+		// this may not work the same in Argon? I'm not sure.
+		//
+		var renderer = Detector.webgl ? new THREE.WebGLRenderer() : new THREE.CanvasRenderer();
+		
+		
+		var width  = window.innerWidth,
+			height = window.innerHeight;
+			
+		renderer.setSize(width, height);
+		
+		var webglEl = document.getElementById('cube');
+		
+		var scene = new THREE.Scene();
+
+		var camera = new THREE.PerspectiveCamera(100, width / height, 1, 1000);
+		camera.position.x = 0.1;
+
+		// First you have to setup the Three.js set of materials that will map to the sides of the cube geometry.
+		// To to this I create a materials array and use a for loop to load the 6 images that will map to each face as textures.
+		// each texture is loaded into a three.MeshBasicMaterial as its texture.  This basicmaterial is then pushed into the materials array
+		// the images order for load should be front= image1.jpg, back= image2.jpg, top=image3.jpg, bottom= image4.jpg, left= image5.jpg, and right= image6.jpg
+		
+		var materials = [];
+			for (var i=0; i<6; i++) {
+			  var img = new Image();
+			  // I've named the mages with numbers at the end of a standard name so that they can be loaded with a for loop.
+			  img.src = 'images/a' + i + '.jpg';
+			  var tex = new THREE.Texture(img);
+			  img.tex = tex;
+			  img.onload = function() {
+				this.tex.needsUpdate = true;
+			  };
+			  // basic material created with each texture as it works through the for loop
+			  var mat = new THREE.MeshBasicMaterial({color: 0xffffff, map: tex});
+			  // then the materials array has the new basic material loaded
+			  materials.push(mat);
+			}
+			
+			// then we create a three.js box instead of 6 planes as you would with the old method
+			var cubeGeo = new THREE.BoxGeometry(120,120,120,1,1,1);
+			// now the parts are put together as a three.Mesh using the box and a special three material that applies textures to the faces of the cube.
+			// the THREE.MeshFaceMaterial takes the materials array created with the for loop above as its input.
+			var cube = new THREE.Mesh(cubeGeo, new THREE.MeshFaceMaterial(materials));
+
+		// scale the cube inside out so that the faces render inward. (Note) this could be a way to hide the cubes quickly so that they aren't rendered in the background?  Though it wouldn't allow fading.
+		cube.scale.x = -1;
+		
+		// then just add the cube to the scene
+		scene.add(cube);
+		
+		// the rest is setting up a new cube that is scaled slightly smaller in order to reveal the pano using a fade.  Same process though
+		var materials1 = [];
+			for (var i=0; i<6; i++) {
+			  var img = new Image();
+			  img.src = 'images/' + i + '.jpg';
+			  var tex = new THREE.Texture(img);
+			  img.tex = tex;
+			  img.onload = function() {
+				this.tex.needsUpdate = true;
+			  };
+			  var mat1 = new THREE.MeshBasicMaterial({color: 0xffffff, map: tex});
+			  materials1.push(mat1);
+			}
+		
+			var cubeGeo1 = new THREE.BoxGeometry(100,100,100,1,1,1);
+			var cube1 = new THREE.Mesh(cubeGeo1, new THREE.MeshFaceMaterial(materials1));
+
+		// in order to avoid any weird z sorting issues on the angles I scaled the cube twice the size of the first (notice the -2 on one size to flip the cube inside out.
+		
+		cube1.scale.x = -2;
+		cube1.scale.y = 2;
+		cube1.scale.z = 2;
+		scene.add(cube1);
+
+		
+		// these are just three orbit controls for the camera. In Argon you'd use the normal method for camera control
+		var controls = new THREE.OrbitControls(camera);
+		controls.noPan = true;
+		controls.noZoom = true; 
+		controls.autoRotate = true;
+		controls.autoRotateSpeed = 0.5;
+
+		webglEl.appendChild(renderer.domElement);
+
+		render();
+
+		function render() {
+			controls.update();
+			requestAnimationFrame(render);
+			renderer.render(scene, camera);
+		}
+		
+		// zoom with a mouse wheel
+		function onMouseWheel(event) {
+			event.preventDefault();
+			
+			if (event.wheelDeltaY) { // WebKit
+				camera.fov -= event.wheelDeltaY * 0.05;
+			} else if (event.wheelDelta) { 	// Opera / IE9
+				camera.fov -= event.wheelDelta * 0.05;
+			} else if (event.detail) { // Firefox
+				camera.fov += event.detail * 1.0;
+			}
+
+			camera.fov = Math.max(40, Math.min(100, camera.fov));
+			camera.updateProjectionMatrix();
+		}
+		
+		function onWindowResize() {
+
+			camera.aspect = window.innerWidth / window.innerHeight;
+			camera.updateProjectionMatrix();
+
+			renderer.setSize( window.innerWidth, window.innerHeight );
+
+		}
+		
+		var myToggle = 1;
+		
+		// this is the fading...
+		// to fade I just fade the transparency on the materials using a for loop to control the face materials transparency.
+		// so this could be powerful in that you may only want to fade one face of the cube.  You would face the materials manually without the for loop and leave the materials you didn't want to fade out.
+		function dofadeIn() {
+				// Fading in
+				
+				for (var i=0; i<6; i++) {
+				  cube.material.materials[i].transparent = true;
+				  TweenLite.to(cube.material.materials[i], 1.5, {opacity: 0});
+				}
+			
+				myToggle = 0;
+		}
+		
+		function dofadeOut() {
+				// Fading in
+				for (var i=0; i<6; i++) {
+				  cube.material.materials[i].transparent = true;
+				  TweenLite.to(cube.material.materials[i], 1.5, {opacity: 1});
+				}
+				
+				myToggle = 1;
+
+		}
+		
+		
+		var tapped=false
+		$("#cube").on("touchstart",function(e){
+			if(!tapped){ //if tap is not set, set up single tap
+			  tapped=setTimeout(function(){
+				  tapped=null
+				  //insert things you want to do when single tapped
+			  },300);   //wait 300ms then run single click code
+			} else {    //tapped within 300ms of last tap. double tap
+			  clearTimeout(tapped); //stop single tap callback
+			  tapped=null
+				if(myToggle == 1){
+					dofadeIn();
+				}else if(myToggle == 0){
+					dofadeOut();
+				}
+			}
+			e.preventDefault()
+		});		
+				
+		function doubleTap(){
+			if(myToggle == 1){
+				dofadeIn();
+			}else if(myToggle == 0){
+				dofadeOut();
+			}
+		}
+
+					
+		
+
+		window.addEventListener( 'resize', onWindowResize, false );
+		document.addEventListener('mousewheel', onMouseWheel, false);
+		document.addEventListener('DOMMouseScroll', onMouseWheel, false);
+
+
+	</script>
+	
+	
+</body>
+</html>

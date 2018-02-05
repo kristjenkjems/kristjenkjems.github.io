@@ -1,0 +1,86 @@
+<!doctype html><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+
+<title>Panorama</title>
+
+<script src="../../vendor/three.js"></script>
+<script src="../../vendor/threestrap.js"></script>
+<script src="../../dist/argon.js"></script>
+<script src="../../dist/argon-three.js"></script>
+
+<body></body>
+
+<script>
+
+  var panorama = new ARGON.Background({
+    init: function() {
+      var displayFrame = ARGON.ReferenceFrame.subscribe('display')
+      displayFrame.on('pushState', function(state) {
+        this.frame.pushState(state)
+        this.update(state.timestamp)
+      }.bind(this))
+    },
+    jsDeps:[
+      '../../vendor/three.js',
+      '../../vendor/threestrap.js'
+    ],
+    renderScript: function(port) {
+      var three = THREE.Bootstrap()
+
+      var blankCanvas = document.createElement( 'canvas' )
+      blankCanvas.width = 256
+      blankCanvas.height = 256
+
+      var texture = new THREE.Texture( blankCanvas )
+      texture.needsUpdate = true
+
+      var sphereGeometry = new THREE.SphereGeometry( 50, 60, 40 )
+      sphereGeometry.applyMatrix( new THREE.Matrix4().makeScale( -1, 1, 1 ) )
+      var sphereMaterial = new THREE.MeshBasicMaterial({map: texture})
+
+      var sphereMesh = new THREE.Mesh( sphereGeometry, sphereMaterial )
+      three.scene.add(sphereMesh)
+
+      port.on('resize', function() {
+        three.plugins.size.queue(null, three)
+      })
+
+      three.camera.matrixAutoUpdate = false
+
+      port.on('update', function(e) {
+        three.camera.fov = e.state.fov
+        three.camera.updateProjectionMatrix()
+        three.camera.matrix.fromArray(e.transform)
+        three.camera.matrix.setPosition({x:0,y:0,z:0})
+        three.camera.matrixWorldNeedsUpdate = true
+      })
+
+      var options = null
+      port.on('options', function(e) {
+        options = e.options
+        if (e.options.source.equirectangular) {
+          _loadEquirectangular()
+        } else if (e.options.source.skybox) {
+          _loadSkybox()
+        }
+      })
+
+      THREE.ImageUtils.crossOrigin = 'anonymous';
+
+      var _loadEquirectangular = function() {
+        var equirectangular = options.source.equirectangular
+        sphereMaterial.map = THREE.ImageUtils.loadTexture( equirectangular,
+          undefined, function() {
+          sphereMaterial.needsUpdate = true
+        })
+      }
+    }
+  })
+
+  panorama.setOptions({source: {equirectangular: ARGON.Util.resolveURL('pano2.jpg')}})
+
+  ARGON.immersiveContext.requestBackground( panorama ).catch(function(e) {
+    console.log(e)
+  })
+  
+</script>

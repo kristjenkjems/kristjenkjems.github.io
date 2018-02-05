@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+<link rel="shortcut icon" href="images/favicon.ico">
+<title>The Personal Site of Kristjen Kjems</title>
+
+<!-- meta -->
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<meta name="robots" content="noindex,follow">
+<meta name="keywords" content=" ">
+
+<!-- css -->
+<!--[if lte IE 8]>
+	<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Oswald:300,400">
+<![endif]-->
+<link rel="stylesheet" href="style.css" type="text/css" media="screen">
+<link rel="stylesheet" href="css/reactor-green.css" type="text/css" media="screen">
+<link rel="stylesheet" href="css/responsive.css" type="text/css" media="screen">
+<link rel="stylesheet" href="css/jquery.vegas.css" type="text/css"/>
+<link rel="stylesheet" href='http://fonts.googleapis.com/css?family=Open+Sans:400' type="text/css">
+<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-37957497-2', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+</head>
+<body>
+<div id="preloader">
+	<div id="status">&nbsp;</div>
+</div>
+
+<div id="header-home">
+	<div id="header-home-inner">
+	<div id="logo-home">
+		<h1 class="logo-home"><a href="index.html" rel="home">KRISTJENKJEMS</a></h1>
+	</div>
+
+	<input type="checkbox" id="toggle">
+	<label for="toggle" class="toggle-home" onclick><i class="fa fa-bars"></i></label>
+	<div class="nav-home">
+			<ul class="menu">
+				<li><a href="about.html">About</a></li>
+					<li><a href="education.html">Education</a></li>
+				<li><a href="employment.html">Employment</a></li>
+				<li><a href="portfolio.html">Portfolio</a></li>
+				<li><a href="extracurriculars.html">Extras</a></li>
+				<li><a href="contact.html">Contact</a></li>
+<li><a href="kristjenkjems_resume.pdf" target="blank_">Resume</a></li>
+
+			</ul>
+		</div><!-- end navigation -->
+		<div class="clear"></div>
+	</div>
+</div><!-- end header-home -->
+
+<div id="content-home">
+	<div class="text-home"><p>I am</p></div>
+	<div id="ticker">
+	  <ul>
+		<li>Digital Media</li>
+		<li>Experience Design</li>
+		<li>Research</li>
+		<li>Literary</li>
+	  </ul>
+	</div>
+	<div class="home-dash"></div>
+	<div class="button-center"><a class="button-home" href="portfolio.html">See my work</a></div>
+</div><!-- end content-home -->
+
+<script src="https://code.jquery.com/jquery.js"></script>
+<script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+<script src="js/jquery.preloader.js"></script>
+<script src="js/jquery.vegas.min.js"></script>
+<script src="js/jquery.vticker.js"></script>
+
+<script>
+$(function() {
+$.vegas('slideshow', {
+  backgrounds:[
+    { src:'images/backgroundimg/ballproject.png', fade:1000, },
+    { src:'images/backgroundimg/flatlands2.png', fade:1000, },
+	{ src:'images/backgroundimg/reactivism.jpg', fade:1000, },
+  ]
+
+})('overlay');
+  $.vegas('overlay', {
+	opacity:0.7,
+    src:'images/overlays/01.png'
+  });
+});
+</script>
+
+<script>
+$(function() {
+  $('#ticker').vTicker();
+});
+</script>
+
+<!--[if lt IE 9]>
+<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+
+</body>
+</html>
