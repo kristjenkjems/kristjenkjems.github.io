@@ -75,7 +75,7 @@ blockquote {
 	margin: 0 0 12px 0;
 	padding: 0 0 0 20px;
 	border-left: 2px solid #555;
-	quotes: "\"" "\"" "‘" "’";
+	quotes: "\"" "\"" "ï¿½" "ï¿½";
 }
 
 blockquote:before {content: open-quote;}
@@ -152,14 +152,14 @@ a:visited {color: #555;}
 	font-family: 'Oswald';
 	font-style: normal;
 	font-weight: 300;
-	src: url(http://themes.googleusercontent.com/static/fonts/oswald/v8/HqHm7BVC_nzzTui2lzQTDT8E0i7KZn-EPnyo3HZu7kw.woff) format('woff');
+	src: url(https://themes.googleusercontent.com/static/fonts/oswald/v8/HqHm7BVC_nzzTui2lzQTDT8E0i7KZn-EPnyo3HZu7kw.woff) format('woff');
 }
 
 @font-face {
 	font-family: 'Oswald';
 	font-style: normal;
 	font-weight: 400;
-	src: url(http://themes.googleusercontent.com/static/fonts/oswald/v8/-g5pDUSRgvxvOl5u-a_WHw.woff) format('woff');
+	src: url(https://themes.googleusercontent.com/static/fonts/oswald/v8/-g5pDUSRgvxvOl5u-a_WHw.woff) format('woff');
 }
 
 .clear {clear: both;}
